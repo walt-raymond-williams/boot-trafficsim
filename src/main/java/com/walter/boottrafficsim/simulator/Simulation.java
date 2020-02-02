@@ -6,6 +6,7 @@
 package com.walter.boottrafficsim.simulator;
 
 import com.walter.boottrafficsim.util.CarsSingleton;
+import com.walter.boottrafficsim.util.MapSingleton;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -15,10 +16,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 // get rid of these when done
-import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -45,6 +44,7 @@ public class Simulation implements Runnable{
     //you'll have to use openMap() yourself
     public Simulation(){
         CarsSingleton.setCars(this.cars);
+
     }
     
     //constructor to start the object up while loading a file
@@ -118,6 +118,7 @@ public class Simulation implements Runnable{
     
     // to start renderer
     public void startRenderer(double scale){
+   //     MapSingleton.setRoads(this.gb.roads);
         this.display = new Renderer(scale, gb.roads,minLat,maxLat,minLon,maxLon);
         display.setMap();
 //        display.reSizeWindow();

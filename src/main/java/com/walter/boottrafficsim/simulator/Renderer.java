@@ -5,6 +5,10 @@
  */
 package com.walter.boottrafficsim.simulator;
 
+import com.walter.boottrafficsim.model.PixelPosition;
+import com.walter.boottrafficsim.model.RoadSegment;
+import com.walter.boottrafficsim.util.MapSingleton;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -22,6 +26,7 @@ import java.awt.event.MouseWheelListener;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -128,20 +133,26 @@ public class Renderer extends JFrame{
         drawWindow();
     }
     
-    
+
+
+    private List<List<RoadSegment>> roadSegments = new ArrayList();
+
     public void setMap(){
         roadShapes=new ArrayList<Shape>();
+        roadSegments = new ArrayList<>();
+        //
 
         for(int i = 0; i<roads.size();i++){
-
+            roadSegments.add(new ArrayList<RoadSegment>());
             for(int j = 0 ; j<roads.get(i).nodeList.size()-1;j++){
+
                 Double y1=latToGrid(roads.get(i).nodeList.get(j).getLat());
                 Double x1=longToGrid(roads.get(i).nodeList.get(j).getLong());
                 Double y2=latToGrid(roads.get(i).nodeList.get(j+1).getLat());
                 Double x2=longToGrid(roads.get(i).nodeList.get(j+1).getLong());
 
-                
-                
+                roadSegments.get(i).add(new RoadSegment(new PixelPosition(x1,y1),new PixelPosition(x2,y2)));
+                System.out.println(roadSegments.get(i).get(j).getPos1().getX()+ " "+roadSegments.get(i).get(j).getPos1().getY());
                 
 //                Double y1=(-roads.get(i).nodeList.get(j).getLat()+maxLat)*scale1;
 //                Double x1=(roads.get(i).nodeList.get(j).getLong()-minLon)*scale1;
@@ -162,7 +173,7 @@ public class Renderer extends JFrame{
 //                intersectShapes.add(tempCept);
 //            }
         }
-        
+        MapSingleton.setRoadSegments(roadSegments);
 //        System.out.println("minLon"+minLon);
 //        System.out.println("maxLon"+maxLon);
 //        System.out.println("minLat"+minLat);
