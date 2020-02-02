@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package trafficsimproject;
+package com.walter.boottrafficsim.simulator;
 //import sun.awt.image.ToolkitImage;
 import java.awt.Color;
 import java.awt.Font;
