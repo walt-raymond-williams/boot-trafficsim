@@ -15,7 +15,12 @@ public class MapController {
     @GetMapping("/map")
     public List<List<RoadSegment>> getRoads(){
         System.out.println("getRoads");
-        return roads;
+        for(List<RoadSegment> rs : MapSingleton.getRoadSegments()){
+            for(RoadSegment r : rs){
+                System.out.println("road segment: "+r.getPos1().getX());
+            }
+        }
+        return MapSingleton.getRoadSegments();
     }
 
 

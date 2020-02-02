@@ -135,7 +135,7 @@ public class Renderer extends JFrame{
     
 
 
-    private List<List<RoadSegment>> roadSegments = new ArrayList();
+    private static List<List<RoadSegment>> roadSegments = new ArrayList();
 
     public void setMap(){
         roadShapes=new ArrayList<Shape>();
@@ -174,6 +174,11 @@ public class Renderer extends JFrame{
 //            }
         }
         MapSingleton.setRoadSegments(roadSegments);
+        for(List<RoadSegment> rs : MapSingleton.getRoadSegments()){
+            for(RoadSegment r : rs){
+                System.out.println("road segment: "+r.getPos1().getX());
+            }
+        }
 //        System.out.println("minLon"+minLon);
 //        System.out.println("maxLon"+maxLon);
 //        System.out.println("minLat"+minLat);
