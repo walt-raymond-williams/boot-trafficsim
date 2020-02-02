@@ -220,11 +220,12 @@ public class TrafficSimProject {
 //        sim.startRenderer(1);
     }
 
-    static void start(){
+    public static void start(){
         ExecutorService executorService = Executors.newCachedThreadPool();
         Simulation sim = new Simulation();
      
         executorService.execute(sim);
+
 
 
         executorService.shutdown();

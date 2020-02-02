@@ -5,6 +5,8 @@
  */
 package com.walter.boottrafficsim.simulator;
 
+import com.walter.boottrafficsim.util.CarsSingleton;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
@@ -41,8 +43,8 @@ public class Simulation implements Runnable{
     public double maxLat =0;
 
     //you'll have to use openMap() yourself
-    Simulation(){
-        
+    public Simulation(){
+        CarsSingleton.setCars(this.cars);
     }
     
     //constructor to start the object up while loading a file
@@ -710,4 +712,11 @@ public class Simulation implements Runnable{
     
     int carTotal=500;
 
+    public ArrayList<Auto> getCars() {
+        return cars;
+    }
+
+    public GraphBuilder getGb() {
+        return gb;
+    }
 }
