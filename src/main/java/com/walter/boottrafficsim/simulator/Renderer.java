@@ -153,7 +153,7 @@ public class Renderer extends JFrame{
                 Double x2=longToGrid(roads.get(i).nodeList.get(j+1).getLong());
 
                 roadSegments.get(i).add(new RoadSegment(new PixelPosition(x1,y1),new PixelPosition(x2,y2)));
-                System.out.println(roadSegments.get(i).get(j).getPos1().getX()+ " "+roadSegments.get(i).get(j).getPos1().getY());
+//                System.out.println(roadSegments.get(i).get(j).getPos1().getX()+ " "+roadSegments.get(i).get(j).getPos1().getY());
                 
 //                Double y1=(-roads.get(i).nodeList.get(j).getLat()+maxLat)*scale1;
 //                Double x1=(roads.get(i).nodeList.get(j).getLong()-minLon)*scale1;
@@ -175,11 +175,11 @@ public class Renderer extends JFrame{
 //            }
         }
         MapSingleton.setRoadSegments(roadSegments);
-        for(List<RoadSegment> rs : MapSingleton.getRoadSegments()){
-            for(RoadSegment r : rs){
-                System.out.println("road segment: "+r.getPos1().getX());
-            }
-        }
+//        for(List<RoadSegment> rs : MapSingleton.getRoadSegments()){
+//            for(RoadSegment r : rs){
+//                System.out.println("road segment: "+r.getPos1().getX());
+//            }
+//        }
 //        System.out.println("minLon"+minLon);
 //        System.out.println("maxLon"+maxLon);
 //        System.out.println("minLat"+minLat);
