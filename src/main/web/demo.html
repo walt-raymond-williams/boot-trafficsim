@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1> Hello </h1>
+<h1 id="title"></h1>
+<hr>
+<div id="text"></div>
+<script>
+    function ajax_get(url, callback) {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                console.log('responseText:' + xmlhttp.responseText);
+                try {
+                    var data = JSON.parse(xmlhttp.responseText);
+                } catch(err) {
+                    console.log(err.message + " in " + xmlhttp.responseText);
+                    return;
+                }
+                callback(data);
+            }
+        };
+
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+    }
+
+    function ajax_repeat(){
+        ajax_get('http://localhost:8088/cars', function(data) {
+            document.getElementById("title").innerHTML = data["title"];
+
+            var html = "<h2>" + "Hello"+ "</h2>";
+
+            html += "<ul>";
+            for (var i=0; i < data.length; i++) {
+                html += '<li><a href="' + data[i].x + '">' + data[i].x +' '+ data[i].y + "</a></li>";
+            }
+            html += "</ul>";
+            document.getElementById("text").innerHTML = html;
+        });
+    }
+
+
+
+    setInterval(ajax_repeat, 20);
+</script>
+
+
+</body>
+</html>

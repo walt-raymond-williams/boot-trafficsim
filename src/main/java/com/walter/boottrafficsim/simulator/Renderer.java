@@ -7,6 +7,7 @@ package com.walter.boottrafficsim.simulator;
 
 import com.walter.boottrafficsim.model.PixelPosition;
 import com.walter.boottrafficsim.model.RoadSegment;
+import com.walter.boottrafficsim.util.CarsSingleton;
 import com.walter.boottrafficsim.util.MapSingleton;
 
 import java.awt.BorderLayout;
@@ -187,12 +188,13 @@ public class Renderer extends JFrame{
     
 
     
-    
+
     Shape testCar = new Rectangle2D.Double(0,0,0,0);
     public void setAutoPos(Nd node){
         Double x1=(node.getLong()-minLon)*scale1;
         Double y1=(node.getLat()-minLat)*scale1;
-        
+        //PixelPosition pp = new PixelPosition(x1,y1);
+
         testCar = new Rectangle2D.Double(x1/scale-10,y1/scale-10,20,20);
         
         drawWindow();
@@ -712,6 +714,7 @@ public class Renderer extends JFrame{
 //            }
 
 //            carShapes = new ArrayList<Shape>();
+            List<PixelPosition> pixList = new ArrayList<>();
             for(int i =0; i<cars.size();i++)
             {
 //                Nd drawAuto = calcOffset(cars.get(i).lastWaypointNode,cars.get(i).posNode.getLong(),cars.get(i).posNode.getLat(),cars.get(i).waypointNode);
@@ -719,7 +722,7 @@ public class Renderer extends JFrame{
                 
                 Double x1=longToGrid(drawAuto.getLong());
                 Double y1=latToGrid(drawAuto.getLat());
-        
+                pixList.add(new PixelPosition(x1,y1));
                 Shape carPos = new Rectangle2D.Double(x1-(halfCarSize)/scale,y1-(halfCarSize)/scale,carSize/scale,carSize/scale);
  //               carShapes.add(carPos);
                 if(cars.get(i).stop)
@@ -734,6 +737,8 @@ public class Renderer extends JFrame{
                     graph2.draw(carPos);
                 }
             }
+
+            CarsSingleton.setCarsPix(pixList);
             
             if(showClickSpot)
             {
@@ -786,7 +791,9 @@ public class Renderer extends JFrame{
             g.dispose();
             
         }
-        
+
+        private List<PixelPosition> carPixels = new ArrayList<>();
+
         private Nd calcOffset(Nd posNode,double x, double y, Nd endPoint){
             double px=posNode.getLong()-endPoint.getLong();
             double py=posNode.getLat()-endPoint.getLat();

@@ -1,12 +1,12 @@
 package com.walter.boottrafficsim.model;
 
 public class PixelPosition {
-    private double x;
-    private double y;
+    private int x;
+    private int y;
 
     public PixelPosition(double x, double y) {
-        this.x = x;
-        this.y = y;
+        this.x = (int)x;
+        this.y = (int)y;
     }
 
     public double getX() {
@@ -14,7 +14,7 @@ public class PixelPosition {
     }
 
     public void setX(double x) {
-        this.x = x;
+        this.x = (int)x;
     }
 
     public double getY() {
@@ -22,6 +22,6 @@ public class PixelPosition {
     }
 
     public void setY(double y) {
-        this.y = y;
+        this.y = (int)y;
     }
 }

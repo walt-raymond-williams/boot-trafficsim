@@ -1,8 +1,10 @@
 package com.walter.boottrafficsim.controller;
 
 import com.walter.boottrafficsim.model.NodePosition;
+import com.walter.boottrafficsim.model.PixelPosition;
 import com.walter.boottrafficsim.simulator.Auto;
 import com.walter.boottrafficsim.util.CarsSingleton;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,9 +19,10 @@ public class CarController {
         return cars;
     }
 
+    @CrossOrigin
     @GetMapping("/cars")
-    public List<NodePosition> allPos(){
-        return CarsSingleton.getPositions();
+    public List<PixelPosition> allPos(){
+        return CarsSingleton.getCarsPix();
     }
 
 
