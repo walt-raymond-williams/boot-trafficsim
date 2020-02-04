@@ -8,6 +8,7 @@ package com.walter.boottrafficsim.simulator;
 import com.walter.boottrafficsim.model.PixelPosition;
 import com.walter.boottrafficsim.model.RoadSegment;
 import com.walter.boottrafficsim.util.CarsSingleton;
+import com.walter.boottrafficsim.util.DimensionSingleton;
 import com.walter.boottrafficsim.util.MapSingleton;
 
 import java.awt.BorderLayout;
@@ -135,10 +136,18 @@ public class Renderer extends JFrame{
     }
     
 
+    public int[] getDimensions(){
+        latRange = (int)((maxLat-minLat)*scale1);// calculate the size of the window
+        lonRange = (int)((maxLon- minLon)*scale1);
+//        System.out.println("SIZE OF WINDOW: " + lonRange/scale + " " +latRange/scale );
+
+        return new int[] {(int)(lonRange/scale), (int)(latRange/scale)};
+    }
 
     private static List<List<RoadSegment>> roadSegments = new ArrayList();
 
     public void setMap(){
+        DimensionSingleton.setDimensions(getDimensions());
         roadShapes=new ArrayList<Shape>();
         roadSegments = new ArrayList<>();
         //

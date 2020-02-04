@@ -6,15 +6,24 @@
 </head>
 <body>
 <h1> Hello </h1>
+<canvas id="board" width="4000" height="3000"></canvas>
+
 <h1 id="title"></h1>
 <hr>
+
 <div id="text"></div>
 
 <h1 id="title2"></h1>
 <hr>
 <div id="text2"></div>
 
+
+
 <script>
+    var board = document.getElementById("board");
+    var ctx = board.getContext("2d");
+
+
     function ajax_get(url, callback) {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
@@ -40,10 +49,14 @@
             var html = "<h2>" + "Hello"+ "</h2>";
 
             html += "<ul>";
+            var ctx = board.getContext("2d");
             for (var i=0; i < data.length; i++) {
                 html +="<h3>Road "+i+"</h3>";
                 for(var j = 0; j<data[i].length;j++){
                     html += '<li><a href="' + data[i].x + '">' + data[i][j].pos1.x +' - '+ data[i][j].pos1.y + ' / ' + data[i][j].pos2.x +' - '+ data[i][j].pos2.y+"</a></li>";
+                    ctx.moveTo(data[i][j].pos1.x,data[i][j].pos1.y);
+                    ctx.lineTo(data[i][j].pos2.x,data[i][j].pos2.y);
+                    ctx.stroke();
                 }
 
             }
