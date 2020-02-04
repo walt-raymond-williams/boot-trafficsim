@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1> Hello </h1>
-<canvas id="board" width="4000" height="3000"></canvas>
+<canvas id="board" width="1600" height="1000"></canvas>
 
 <h1 id="title"></h1>
 <hr>
@@ -22,8 +22,10 @@
 <script>
     var board = document.getElementById("board");
     var ctx = board.getContext("2d");
-
-
+    ctx.rect(0,0,board.width, board.height);
+    ctx.fillStyle = "black";
+    ctx.fill();
+    var imageData = ctx.getImageData(0,0,board.width,board.height);
     function ajax_get(url, callback) {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
@@ -49,17 +51,20 @@
             var html = "<h2>" + "Hello"+ "</h2>";
 
             html += "<ul>";
-            var ctx = board.getContext("2d");
+            let ctx = board.getContext("2d");
             for (var i=0; i < data.length; i++) {
                 html +="<h3>Road "+i+"</h3>";
                 for(var j = 0; j<data[i].length;j++){
                     html += '<li><a href="' + data[i].x + '">' + data[i][j].pos1.x +' - '+ data[i][j].pos1.y + ' / ' + data[i][j].pos2.x +' - '+ data[i][j].pos2.y+"</a></li>";
+                    ctx.strokeStyle = "grey";
+                    ctx.lineWidth=1;
                     ctx.moveTo(data[i][j].pos1.x,data[i][j].pos1.y);
                     ctx.lineTo(data[i][j].pos2.x,data[i][j].pos2.y);
                     ctx.stroke();
                 }
 
             }
+            imageData = ctx.getImageData(0,0,board.width,board.height);
             html += "</ul>";
             document.getElementById("text2").innerHTML = html;
             Console.log("hello");
@@ -73,8 +78,14 @@
             var html = "<h2>" + "Hello"+ "</h2>";
 
             html += "<ul>";
+            let ctx = board.getContext("2d");
+            ctx.putImageData(imageData,0,0);
             for (var i=0; i < data.length; i++) {
                 html += '<li><a href="' + data[i].x + '">' + data[i].x +' '+ data[i].y + "</a></li>";
+                ctx.beginPath();
+                ctx.strokeStyle = "yellow"
+                ctx.rect(data[i].x-2,data[i].y-2,4,4);
+                ctx.stroke();
             }
             html += "</ul>";
             document.getElementById("text").innerHTML = html;
