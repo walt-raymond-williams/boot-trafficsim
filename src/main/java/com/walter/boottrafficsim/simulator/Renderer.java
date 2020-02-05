@@ -59,10 +59,25 @@ public class Renderer extends JFrame{
 
     double mouseLong=0;
     double mouseLat=0;
-    int mouseOffSetX=0;
-    int mouseOffSetY=0;
+    private int mouseOffSetX=0;
+    private int mouseOffSetY=0;
 
-    //drawRoad = new Line2D.Float(lons.get(i)/scale,lats.get(i)/scale,lons.get(i+1)/scale,lats.get(i+1)/scale);
+    public int getMouseOffSetX() {
+        return mouseOffSetX;
+    }
+
+    public void setMouseOffSetX(int mouseOffSetX) {
+        this.mouseOffSetX = mouseOffSetX;
+    }
+
+    public int getMouseOffSetY() {
+        return mouseOffSetY;
+    }
+
+    public void setMouseOffSetY(int mouseOffSetY) {
+        this.mouseOffSetY = mouseOffSetY;
+    }
+//drawRoad = new Line2D.Float(lons.get(i)/scale,lats.get(i)/scale,lons.get(i+1)/scale,lats.get(i+1)/scale);
     
     //for adjusting map
     double scale = 1;

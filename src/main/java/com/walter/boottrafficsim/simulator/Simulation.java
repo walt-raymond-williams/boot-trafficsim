@@ -7,6 +7,7 @@ package com.walter.boottrafficsim.simulator;
 
 import com.walter.boottrafficsim.util.CarsSingleton;
 import com.walter.boottrafficsim.util.MapSingleton;
+import com.walter.boottrafficsim.util.RendererSingleton;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -120,6 +121,7 @@ public class Simulation implements Runnable{
     public void startRenderer(double scale){
    //     MapSingleton.setRoads(this.gb.roads);
         this.display = new Renderer(scale, gb.roads,minLat,maxLat,minLon,maxLon);
+        RendererSingleton.setRenderer(this.display);
         display.setMap();
 //        display.reSizeWindow();
         

@@ -25,12 +25,48 @@
     ctx.rect(0,0,board.width, board.height);
     ctx.fillStyle = "black";
     ctx.fill();
+
+    board.addEventListener("mousedown", doMouseDown, false);
+    board.addEventListener("mouseup", doMouseUp, false);
+
+
+    var x=0;
+    var y=0;
+    function doMouseDown(event){
+        x=event.pageX;
+        y=event.pageY;
+        let html = "<h1> x: "+event.pageX+" y: "+event.pageY+"</h1>";
+        document.getElementById("text").innerHTML = html;
+
+    }
+
+    function doMouseUp(event){
+        let xresult = -x + event.pageX;
+        let yresult = -y + event.pageY;
+        let html = "<h1> x: "+xresult+" y: "+yresult+"</h1>";
+        document.getElementById("text").innerHTML = html;
+        ajax_post(xresult,yresult);
+    }
+
+    function ajax_post(xresult,yresult) {
+        var xmlhttp = new XMLHttpRequest();
+
+        let urlreq = "http://localhost:8088/offset?x="+xresult+"&y="+yresult;
+
+        xmlhttp.open("POST", urlreq, true);
+        xmlhttp.send("x="+xresult+"&y="+yresult);
+        setTimeout(update_map,20);
+        // update_map();
+    }
+
+
+
     var imageData = ctx.getImageData(0,0,board.width,board.height);
     function ajax_get(url, callback) {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                console.log('responseText:' + xmlhttp.responseText);
+                // console.log('responseText:' + xmlhttp.responseText);
                 try {
                     var data = JSON.parse(xmlhttp.responseText);
                 } catch(err) {
@@ -45,6 +81,7 @@
         xmlhttp.send();
     }
 
+    function update_map(){
         ajax_get('http://localhost:8088/map', function(data) {
 
 
@@ -52,6 +89,10 @@
 
             //html += "<ul>";
             let ctx = board.getContext("2d");
+
+            ctx.rect(0,0,board.width, board.height);
+            ctx.fillStyle = "black";
+            ctx.fill();
             for (var i=0; i < data.length; i++) {
                 //html +="<h3>Road "+i+"</h3>";
                 for(var j = 0; j<data[i].length;j++){
@@ -67,8 +108,10 @@
             imageData = ctx.getImageData(0,0,board.width,board.height);
             //html += "</ul>";
             //document.getElementById("text2").innerHTML = html;
-            Console.log("hello");
+            // Console.log("hello");
         });
+    }
+    update_map();
 
 
     function ajax_repeat(){
