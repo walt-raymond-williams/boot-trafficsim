@@ -28,24 +28,88 @@
 
     board.addEventListener("mousedown", doMouseDown, false);
     board.addEventListener("mouseup", doMouseUp, false);
-
+    board.addEventListener("mouseout", doMouseOut, false);
+    // board.addEventListener()
+    // board.addEventListener("mousemove", doMouseMove, false);
+    board.addEventListener("wheel",doMouseWheel,false);
+    board.oncontextmenu=function(e){
+        e.preventDefault();
+    };
+    board.onwheel = function(event){
+        event.preventDefault();
+    };
+    board.onmousewheel = function(event){
+        event.preventDefault();
+    };
 
     var x=0;
     var y=0;
+    var mouse = false;
+
+
+
+    function doMouseWheel(event){
+        let x = event.deltaX;
+        let y = event.deltaY;
+        console.log(x+" "+y);
+        zoom(event.deltaY,event.pageX,event.pageY);
+    }
+    // var x_cur =0;
+    // var y_cur =0;
+
+    // function doMouseMove(event){
+    //     x_cur=event.pageX;
+    //     y_cur=event.pageY;
+    // }
+
+
+
+    // function doMouseHeld(){
+    //     if(mouse){
+    //         let xresult = -x + x_cur;
+    //         let yresult = -y + y_cur;
+    //         let html = "<h1> x: "+xresult+" y: "+yresult+"</h1>";
+    //         document.getElementById("text").innerHTML = html;
+    //         ajax_post(xresult,yresult);
+    //         x=x_cur;
+    //         y=y_cur;
+    //     }
+    //
+    // }
+
+
     function doMouseDown(event){
+
         x=event.pageX;
         y=event.pageY;
         let html = "<h1> x: "+event.pageX+" y: "+event.pageY+"</h1>";
         document.getElementById("text").innerHTML = html;
+        mouse=true;
+        // setInterval(doMouseHeld(),20);
+
+
 
     }
 
     function doMouseUp(event){
+        mouse = false;
         let xresult = -x + event.pageX;
         let yresult = -y + event.pageY;
         let html = "<h1> x: "+xresult+" y: "+yresult+"</h1>";
         document.getElementById("text").innerHTML = html;
         ajax_post(xresult,yresult);
+
+
+        x=0;
+        y=0;
+    }
+
+    function doMouseOut(event){
+        if(mouse) {
+            doMouseUp(event);
+        }
+        // x=0;
+        // y=0;
     }
 
     function ajax_post(xresult,yresult) {
@@ -135,6 +199,16 @@
         });
     }
 
+    function zoom(zoom,xresult,yresult) {
+        var xmlhttp = new XMLHttpRequest();
+
+        let urlreq = "http://localhost:8088/zoom?zoom="+zoom+"&x="+xresult+"&y="+yresult;
+
+        xmlhttp.open("POST", urlreq, true);
+        xmlhttp.send("zoom="+zoom+"&x="+xresult+"&y="+yresult);
+        setTimeout(update_map,20);
+        // update_map();
+    }
 
 
     setInterval(ajax_repeat, 20);

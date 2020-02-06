@@ -14,7 +14,7 @@ public class FocusController {
 
         int xint = Integer.parseInt(x);
         int yint = Integer.parseInt(y);
-        System.out.println("am i hereAFTER:  x:"+xint+" y:"+yint);
+//        System.out.println("am i hereAFTER:  x:"+xint+" y:"+yint);
 
 
 
@@ -25,5 +25,17 @@ public class FocusController {
 
     }
 
+    @CrossOrigin
+    @PostMapping("/zoom")
+    public void setZoom(@RequestParam("zoom") String zoom, @RequestParam("x") String x, @RequestParam("y") String y) {
+        int zoomint = Integer.parseInt(zoom);
+        int xint = Integer.parseInt(x);
+        int yint = Integer.parseInt(y);
+
+        RendererSingleton.getRenderer().setZoom(zoomint,xint,yint);
+
+
+//        RendererSingleton.getRenderer()
+    }
 
 }

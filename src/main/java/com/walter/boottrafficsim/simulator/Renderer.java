@@ -81,7 +81,11 @@ public class Renderer extends JFrame{
     
     //for adjusting map
     double scale = 1;
-    
+
+    public double getScale() {
+        return scale;
+    }
+
     Renderer(double scale, ArrayList<Road> roads, double minLat, double maxLat, double minLon, double maxLon){
         getContentPane().setBackground(Color.getHSBColor(0, 0, 0));
         this.scale=scale;
@@ -511,6 +515,47 @@ public class Renderer extends JFrame{
     boolean nodeSearchPlease=false;
     boolean roadSearchPlease=false;
     boolean showClickSpot=true;
+
+    public void setZoom(int zoom, int x, int y) {
+        int wheelRot=zoom;
+//            System.out.println("mouse="+wheelRot);
+        if(wheelRot>0){//zoom out
+
+            scale++;
+
+            mouseOffSetX-=(int)((mouseOffSetX-x+8)/scale);
+            mouseOffSetY-=(int)((mouseOffSetY-y+55)/scale);
+        }else if(wheelRot<0){//zoom in
+
+
+
+            if(scale-1<=0){
+                scale=.5;
+
+
+            }else{
+                scale--;
+
+
+                mouseOffSetX+=(int)((mouseOffSetX-x+8)/scale);//8 and 55 are offsets
+                mouseOffSetY+=(int)((mouseOffSetY-y+55)/scale);
+
+
+
+
+
+            }
+
+
+        }
+
+
+
+        setMap();
+
+    }
+
+
     private class MouseHandler implements MouseListener, MouseMotionListener, MouseWheelListener{
         
 
