@@ -5,11 +5,12 @@
  */
 package com.walter.boottrafficsim.simulator;
 
+import com.walter.boottrafficsim.model.NodePosition;
 import com.walter.boottrafficsim.model.PixelPosition;
 import com.walter.boottrafficsim.model.RoadSegment;
-import com.walter.boottrafficsim.util.CarsSingleton;
-import com.walter.boottrafficsim.util.DimensionSingleton;
-import com.walter.boottrafficsim.util.MapSingleton;
+import com.walter.boottrafficsim.services.CarsService;
+import com.walter.boottrafficsim.services.DimensionService;
+import com.walter.boottrafficsim.services.MapService;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -19,7 +20,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -166,7 +166,7 @@ public class Renderer extends JFrame{
     private static List<List<RoadSegment>> roadSegments = new ArrayList();
 
     public void setMap(){
-        DimensionSingleton.setDimensions(getDimensions());
+        DimensionService.setDimensions(getDimensions());
         roadShapes=new ArrayList<Shape>();
         roadSegments = new ArrayList<>();
         //
@@ -202,7 +202,7 @@ public class Renderer extends JFrame{
 //                intersectShapes.add(tempCept);
 //            }
         }
-        MapSingleton.setRoadSegments(roadSegments);
+        MapService.setRoadSegments(roadSegments);
 //        for(List<RoadSegment> rs : MapSingleton.getRoadSegments()){
 //            for(RoadSegment r : rs){
 //                System.out.println("road segment: "+r.getPos1().getX());
@@ -502,7 +502,15 @@ public class Renderer extends JFrame{
 
     
     // this draws stuff
-    // 
+    //
+
+
+    public NodePosition getNodePosition(int x, int y){
+        double longitutde=((x-8-mouseOffSetX)*scale)/scale1+minLon;
+        double latitude=-((y-55-mouseOffSetY)*scale)/scale1+maxLat;
+        return new NodePosition(longitutde,latitude);
+
+    }
     
     private double xToLong(double lon){
         return ((lon-13)*scale)/scale1+minLon;
@@ -555,6 +563,17 @@ public class Renderer extends JFrame{
 
     }
 
+    public NodePosition getLatLong(double x, double y){
+
+        double longi=((x-8-mouseOffSetX)*scale)/scale1+minLon;
+        double lati=-((y-55-mouseOffSetY)*scale)/scale1+maxLat;
+        NodePosition np = new NodePosition();
+
+        np.setLongitude(longi);
+        np.setLatitude(lati);
+
+        return np;
+    }
 
     private class MouseHandler implements MouseListener, MouseMotionListener, MouseWheelListener{
         
@@ -787,11 +806,11 @@ public class Renderer extends JFrame{
             for(int i =0; i<cars.size();i++)
             {
 //                Nd drawAuto = calcOffset(cars.get(i).lastWaypointNode,cars.get(i).posNode.getLong(),cars.get(i).posNode.getLat(),cars.get(i).waypointNode);
-                Nd drawAuto = cars.get(i).posNode;                
-                
+                Nd drawAuto = cars.get(i).posNode;
+//                System.out.println(drawAuto.getRef());
                 Double x1=longToGrid(drawAuto.getLong());
                 Double y1=latToGrid(drawAuto.getLat());
-                pixList.add(new PixelPosition(x1,y1));
+                pixList.add(new PixelPosition(x1,y1,drawAuto.getRef()));
                 Shape carPos = new Rectangle2D.Double(x1-(halfCarSize)/scale,y1-(halfCarSize)/scale,carSize/scale,carSize/scale);
  //               carShapes.add(carPos);
                 if(cars.get(i).stop)
@@ -807,7 +826,7 @@ public class Renderer extends JFrame{
                 }
             }
 
-            CarsSingleton.setCarsPix(pixList);
+            CarsService.setCarsPix(pixList);
             
             if(showClickSpot)
             {

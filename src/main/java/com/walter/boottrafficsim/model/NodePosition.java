@@ -10,6 +10,12 @@ public class NodePosition {
     public NodePosition() {
 
     }
+
+    public NodePosition(double longitude, double latitude) {
+        this.longitude = longitude;
+        this.latitude = latitude;
+    }
+
     public NodePosition(Nd node) {
         this.latitude=node.getLat();
         this.longitude=node.getLong();

@@ -6,6 +6,7 @@
 package com.walter.boottrafficsim.simulator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -49,10 +50,32 @@ public class Auto {
     
     int lane =1; // remember to [lane-1]
 
-    
-    
-    
-//******************************************************
+    @Override
+    public String toString() {
+        return "Auto{" +
+                "directions=" + directions +
+                ", posNode=" + posNode +
+                ", targetNode=" + targetNode +
+                ", waypointNode=" + waypointNode +
+                ", lastWaypointNode=" + lastWaypointNode +
+                ", distNext=" + distNext +
+                ", velocity=" + velocity +
+                ", maxVelocity=" + maxVelocity +
+                ", acceleration=" + acceleration +
+                ", stop=" + stop +
+                ", accelerationOn=" + accelerationOn +
+                ", lane=" + lane +
+                ", carSpacing=" + carSpacing +
+                ", stopSpacing=" + stopSpacing +
+                ", justGo=" + justGo +
+                ", stoppedOnce=" + stoppedOnce +
+                ", stopOffset=" + stopOffset +
+                ", D=" + D +
+                ", laneDists=" + Arrays.toString(laneDists) +
+                '}';
+    }
+
+    //******************************************************
 //***  Method Name
 //***  Method Author (i.e. Your name)
 //******************************************************

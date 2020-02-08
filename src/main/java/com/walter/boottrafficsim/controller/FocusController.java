@@ -1,7 +1,6 @@
 package com.walter.boottrafficsim.controller;
 
-import com.walter.boottrafficsim.simulator.Renderer;
-import com.walter.boottrafficsim.util.RendererSingleton;
+import com.walter.boottrafficsim.services.RendererService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,9 +17,9 @@ public class FocusController {
 
 
 
-        RendererSingleton.getRenderer().setMouseOffSetX(RendererSingleton.getRenderer().getMouseOffSetX()+xint);
-        RendererSingleton.getRenderer().setMouseOffSetY(RendererSingleton.getRenderer().getMouseOffSetY()+yint);
-        RendererSingleton.getRenderer().setMap();
+        RendererService.getRenderer().setMouseOffSetX(RendererService.getRenderer().getMouseOffSetX()+xint);
+        RendererService.getRenderer().setMouseOffSetY(RendererService.getRenderer().getMouseOffSetY()+yint);
+        RendererService.getRenderer().setMap();
 //
 
     }
@@ -32,7 +31,7 @@ public class FocusController {
         int xint = Integer.parseInt(x);
         int yint = Integer.parseInt(y);
 
-        RendererSingleton.getRenderer().setZoom(zoomint,xint,yint);
+        RendererService.getRenderer().setZoom(zoomint,xint,yint);
 
 
 //        RendererSingleton.getRenderer()

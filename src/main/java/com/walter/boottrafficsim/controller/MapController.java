@@ -1,8 +1,7 @@
 package com.walter.boottrafficsim.controller;
 
 import com.walter.boottrafficsim.model.RoadSegment;
-import com.walter.boottrafficsim.simulator.Road;
-import com.walter.boottrafficsim.util.MapSingleton;
+import com.walter.boottrafficsim.services.MapService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,7 +10,7 @@ import java.util.List;
 
 @RestController
 public class MapController {
-    private List<List<RoadSegment>> roads = MapSingleton.getRoadSegments();
+    private List<List<RoadSegment>> roads = MapService.getRoadSegments();
 
     @CrossOrigin
     @GetMapping("/map")
@@ -22,7 +21,7 @@ public class MapController {
 //                System.out.println("road segment: "+r.getPos1().getX());
 //            }
 //        }
-        return MapSingleton.getRoadSegments();
+        return MapService.getRoadSegments();
     }
 
 

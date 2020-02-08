@@ -3,6 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        #board_container{
+            position: relative;
+        }
+        #board_container #board, #car{
+            position: absolute;
+        }
+        #board{
+            border: 1px solid black ;
+        }
+        #car{
+            background-color:grey;
+            margin-left: 10px;
+            margin-top: 10px;
+            height:100px;
+            width:100px;
+        }
+    </style>
 </head>
 <body>
 <h1> Hello </h1>
@@ -11,7 +29,11 @@
 
 
 <br>
-<canvas id="board" width="1600" height="1000"></canvas>
+
+<div id="board_container">
+    <canvas id="board" width="1600" height="1000"></canvas>
+    <div id="car"></div>
+</div>
 
 <h1 id="title"></h1>
 <hr>
@@ -24,29 +46,34 @@
 
 
 
+
 <script>
     var board = document.getElementById("board");
     var ctx = board.getContext("2d");
-    ctx.rect(0,0,board.width, board.height);
-    ctx.fillStyle = "black";
-    ctx.fill();
 
-    board.addEventListener("mousedown", doMouseDown, false);
-    board.addEventListener("mouseup", doMouseUp, false);
-    board.addEventListener("mouseout", doMouseOut, false);
-    // board.addEventListener()
-    // board.addEventListener("mousemove", doMouseMove, false);
-    board.addEventListener("wheel",doMouseWheel,false);
-    board.oncontextmenu=function(e){
-        e.preventDefault();
-    };
-    board.onwheel = function(event){
-        event.preventDefault();
-    };
-    board.onmousewheel = function(event){
-        event.preventDefault();
-    };
+    function init() {
+        ctx.rect(0, 0, board.width, board.height);
+        ctx.fillStyle = "black";
+        ctx.fill();
 
+        board.addEventListener("mousedown", doMouseDown, false);
+        board.addEventListener("mouseup", doMouseUp, false);
+        board.addEventListener("mouseout", doMouseOut, false);
+        // board.addEventListener()
+        // board.addEventListener("mousemove", doMouseMove, false);
+        board.addEventListener("wheel", doMouseWheel, false);
+        board.oncontextmenu = function (e) {
+            e.preventDefault();
+        };
+        board.onwheel = function (event) {
+            event.preventDefault();
+        };
+        board.onmousewheel = function (event) {
+            event.preventDefault();
+        };
+    }
+
+    init();
     var x=0;
     var y=0;
     var mouse = false;
@@ -83,37 +110,71 @@
     // }
 
 
+    var track_auto;
     function doMouseDown(event){
 
         
+        if(event.button==2){
+            x=event.pageX;
+            y=event.pageY;
+            let html = "<h1> x: "+event.pageX+" y: "+event.pageY+"</h1>";
+            document.getElementById("text").innerHTML = html;
+            mouse=true;
+            // setInterval(doMouseHeld(),20);
 
-        x=event.pageX;
-        y=event.pageY;
-        let html = "<h1> x: "+event.pageX+" y: "+event.pageY+"</h1>";
-        document.getElementById("text").innerHTML = html;
-        mouse=true;
-        // setInterval(doMouseHeld(),20);
+        }else{
+            track_auto = ajax_find_car(event.pageX,event.pageY);
+            console.log(track_auto);
+        }
 
 
 
     }
 
+    function ajax_find_car(xresult,yresult) {
+
+        let myUrl='http://localhost:8088/findcar?x='+xresult+'&y='+yresult;
+        ajax_get(myUrl, function(data) {
+
+
+            //var html = "<h2>" + "Hello"+ "</h2>";
+
+            //html += "<ul>";
+            return data;
+            //html += "</ul>";
+            //document.getElementById("text").innerHTML = html;
+        });
+    }
+
     function doMouseUp(event){
-        mouse = false;
-        let xresult = -x + event.pageX;
-        let yresult = -y + event.pageY;
-        let html = "<h1> x: "+xresult+" y: "+yresult+"</h1>";
-        document.getElementById("text").innerHTML = html;
-        ajax_post(xresult,yresult);
+
+        if(event.button==2){
+            mouse = false;
+            let xresult = -x + event.pageX;
+            let yresult = -y + event.pageY;
+            let html = "<h1> x: "+xresult+" y: "+yresult+"</h1>";
+            document.getElementById("text").innerHTML = html;
+            ajax_post(xresult,yresult);
 
 
-        x=0;
-        y=0;
+            x=0;
+            y=0;
+        }
+
     }
 
     function doMouseOut(event){
         if(mouse) {
-            doMouseUp(event);
+            mouse = false;
+            let xresult = -x + event.pageX;
+            let yresult = -y + event.pageY;
+            let html = "<h1> x: "+xresult+" y: "+yresult+"</h1>";
+            document.getElementById("text").innerHTML = html;
+            ajax_post(xresult,yresult);
+
+
+            x=0;
+            y=0;
         }
         // x=0;
         // y=0;

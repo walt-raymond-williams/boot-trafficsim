@@ -5,9 +5,9 @@
  */
 package com.walter.boottrafficsim.simulator;
 
-import com.walter.boottrafficsim.util.CarsSingleton;
-import com.walter.boottrafficsim.util.MapSingleton;
-import com.walter.boottrafficsim.util.RendererSingleton;
+import com.walter.boottrafficsim.services.CarsService;
+import com.walter.boottrafficsim.services.RendererService;
+import com.walter.boottrafficsim.services.SimulationService;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -44,7 +44,8 @@ public class Simulation implements Runnable{
 
     //you'll have to use openMap() yourself
     public Simulation(){
-        CarsSingleton.setCars(this.cars);
+        CarsService.setCars(this.cars);
+        SimulationService.setSim(this);
 
     }
     
@@ -121,7 +122,7 @@ public class Simulation implements Runnable{
     public void startRenderer(double scale){
    //     MapSingleton.setRoads(this.gb.roads);
         this.display = new Renderer(scale, gb.roads,minLat,maxLat,minLon,maxLon);
-        RendererSingleton.setRenderer(this.display);
+        RendererService.setRenderer(this.display);
         display.setMap();
 //        display.reSizeWindow();
         
@@ -446,15 +447,17 @@ public class Simulation implements Runnable{
         display.stepCars(cars);
     }
     
-    private Auto findAuto(double x, double y){
+    public Auto findAuto(double x, double y){
         Auto output=new Auto();
+        output.getPos().setRef(-1);
 //        System.out.println("x="+x+"     y="+y);
-     
+        System.out.println("findAuto x:"+x+" y:"+y);
         for(int i=0;i<cars.size();i++){
-            if(cars.get(i).posNode.getLat()<y+.0002
-                    &&cars.get(i).posNode.getLat()>y-.0002
-                    &&cars.get(i).posNode.getLong()>x-.0002
-                    &&cars.get(i).posNode.getLong()<x+.0002){
+//            System.out.println("car lat: "+cars.get(i).posNode.getLat()+" lon: "+cars.get(i).posNode.getLong());
+            if(cars.get(i).posNode.getLat()<y+.0004
+                    &&cars.get(i).posNode.getLat()>y-.0004
+                    &&cars.get(i).posNode.getLong()>x-.0004
+                    &&cars.get(i).posNode.getLong()<x+.0004){
                 
                 output=cars.get(i);
 //                    System.out.println("FOUND IT");
