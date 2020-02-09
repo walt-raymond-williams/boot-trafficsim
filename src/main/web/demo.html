@@ -123,8 +123,8 @@
             // setInterval(doMouseHeld(),20);
 
         }else{
-            track_auto = ajax_find_car(event.pageX,event.pageY);
-            console.log(track_auto);
+            ajax_find_car(event.pageX,event.pageY);
+            console.log("track auto "+track_auto);
         }
 
 
@@ -140,7 +140,8 @@
             //var html = "<h2>" + "Hello"+ "</h2>";
 
             //html += "<ul>";
-            return data;
+            console.log("data "+data);
+            track_auto = data;
             //html += "</ul>";
             //document.getElementById("text").innerHTML = html;
         });
@@ -261,6 +262,12 @@
                 ctx.strokeStyle = "yellow"
                 ctx.rect(data[i].x-1,data[i].y-1,2,2);
                 ctx.stroke();
+                if(data[i].ref==track_auto){
+                    ctx.beginPath();
+                    ctx.strokeStyle = "green"
+                    ctx.rect(data[i].x-15,data[i].y-15,30,30);
+                    ctx.stroke();
+                }
             }
             //html += "</ul>";
             //document.getElementById("text").innerHTML = html;

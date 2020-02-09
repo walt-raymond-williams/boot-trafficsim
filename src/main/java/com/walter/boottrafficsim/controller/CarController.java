@@ -27,14 +27,15 @@ public class CarController {
 
     @CrossOrigin
     @GetMapping("/findcar")
-    public Auto findCar(@RequestParam("x") String x, @RequestParam("y") String y){
+    public int findCar(@RequestParam("x") String x, @RequestParam("y") String y){
         System.out.println("did i get to /findcar");
         double xint = Double.parseDouble(x);
         double yint = Double.parseDouble(y);
         NodePosition np = RendererService.getRenderer().getLatLong(xint,yint);
         Auto result = SimulationService.getSim().findAuto(np.getLongitude(), np.getLatitude());
         System.out.println("found ref: "+result.getPos().getRef());
-        return result;
+
+        return (int)result.getPos().getRef();
 
 //        return null;
     }

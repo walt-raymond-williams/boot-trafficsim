@@ -454,10 +454,10 @@ public class Simulation implements Runnable{
         System.out.println("findAuto x:"+x+" y:"+y);
         for(int i=0;i<cars.size();i++){
 //            System.out.println("car lat: "+cars.get(i).posNode.getLat()+" lon: "+cars.get(i).posNode.getLong());
-            if(cars.get(i).posNode.getLat()<y+.0004
-                    &&cars.get(i).posNode.getLat()>y-.0004
-                    &&cars.get(i).posNode.getLong()>x-.0004
-                    &&cars.get(i).posNode.getLong()<x+.0004){
+            if(cars.get(i).posNode.getLat()<y+.0008
+                    &&cars.get(i).posNode.getLat()>y-.0008
+                    &&cars.get(i).posNode.getLong()>x-.0008
+                    &&cars.get(i).posNode.getLong()<x+.0008){
                 
                 output=cars.get(i);
 //                    System.out.println("FOUND IT");
